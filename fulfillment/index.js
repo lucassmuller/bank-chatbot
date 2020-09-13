@@ -38,4 +38,12 @@ app.handle('linkAccount', async conv => {
   }
 })
 
+app.handle('checkBalance', async conv => {
+  const uid = conv.user.params.uid
+  if (uid) {
+    const account = await firebase.firestore().collection('accounts').doc(uid).get()
+    conv.session.params.balance = account.get('balance')
+  }
+})
+
 module.exports = app
